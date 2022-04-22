@@ -4,6 +4,7 @@
   "description": "Aplicación de Administrador de Proyectos que llevarán tu gestión al siguiente nivel. En él puedes administrar los proyectos de tus sueños y sus actividades de inicio a fin.",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "start": "node index.js"
   },
   "repository": {
@@ -22,5 +23,8 @@
   "homepage": "https://github.com/ElliotXLeo/next-project-mern-backend#readme",
   "dependencies": {
     "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
