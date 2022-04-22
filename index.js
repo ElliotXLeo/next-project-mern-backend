@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import userRouter from './routes/userRouter.js';
 
 const app = express();
-
+app.use(express.json());
 dotenv.config();
 db();
 

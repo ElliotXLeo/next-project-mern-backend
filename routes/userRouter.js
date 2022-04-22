@@ -1,11 +1,7 @@
 import { Router } from "express";
+import { userCreate } from "../controllers/userController.js";
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-  res.json({
-    message: 'OK',
-    endpoint: '/api/users'
-  });
-});
+userRouter.post('/', userCreate);
 
 export default userRouter;
