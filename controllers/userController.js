@@ -1,3 +1,4 @@
+import generateId from "../helpers/generateId.js";
 import User from "../models/User.js";
 
 export const userCreate = async (req, res) => {
@@ -12,6 +13,7 @@ export const userCreate = async (req, res) => {
   } else {
     try {
       const user = User(req.body);
+      user.token = generateId();
       const saveUser = await user.save();
       res.json(saveUser);
       console.log(saveUser);
