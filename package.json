@@ -1,0 +1,22 @@
+{
+  "name": "next-project-mern-backend",
+  "version": "0.0.1",
+  "description": "Aplicación de Administrador de Proyectos que llevarán tu gestión al siguiente nivel. En él puedes administrar los proyectos de tus sueños y sus actividades de inicio a fin.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElliotXLeo/next-project-mern-backend.git"
+  },
+  "keywords": [
+    "Node.js"
+  ],
+  "author": "Elliot Leo Garamendi Sarmiento",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElliotXLeo/next-project-mern-backend/issues"
+  },
+  "homepage": "https://github.com/ElliotXLeo/next-project-mern-backend#readme"
+}
