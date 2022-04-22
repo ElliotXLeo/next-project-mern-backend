@@ -4,7 +4,7 @@
   "description": "Aplicación de Administrador de Proyectos que llevarán tu gestión al siguiente nivel. En él puedes administrar los proyectos de tus sueños y sus actividades de inicio a fin.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
