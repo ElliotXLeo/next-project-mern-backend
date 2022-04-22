@@ -2,6 +2,7 @@
   "name": "next-project-mern-backend",
   "version": "0.0.1",
   "description": "Aplicación de Administrador de Proyectos que llevarán tu gestión al siguiente nivel. En él puedes administrar los proyectos de tus sueños y sus actividades de inicio a fin.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
