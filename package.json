@@ -11,12 +11,16 @@
     "url": "git+https://github.com/ElliotXLeo/next-project-mern-backend.git"
   },
   "keywords": [
-    "Node.js"
+    "Node.js",
+    "Express.js"
   ],
   "author": "Elliot Leo Garamendi Sarmiento",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ElliotXLeo/next-project-mern-backend/issues"
   },
-  "homepage": "https://github.com/ElliotXLeo/next-project-mern-backend#readme"
+  "homepage": "https://github.com/ElliotXLeo/next-project-mern-backend#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
