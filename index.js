@@ -1,7 +1,14 @@
 import express from 'express';
+import db from './config/db.js';
+import dotenv from 'dotenv';
 
 const app = express();
 
-app.listen(4000, () => {
-  console.log('Servidor corriendo desde el puerto 4000');
+dotenv.config();
+db();
+
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo desde el puerto ${PORT}`);
 });
