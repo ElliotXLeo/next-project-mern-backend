@@ -22,3 +22,32 @@ export const userCreate = async (req, res) => {
     }
   }
 };
+
+export const userAuthenticate = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  console.log(user);
+
+  if (!user) {
+    const error = new Error('Usuario y/o contraseña errónea');
+    return res.status(400).json({
+      message: error.message
+    });
+  } else if (!user.confirmed) {
+    const error = new Error('Cuenta no confirmada');
+    return res.status(403).json({
+      message: error.message
+    });
+  } else if (await user.verifyPassword(password)) {
+    return res.status(200).json({
+      _id: user._id,
+      nombre: user.name,
+      email: user.email
+    });
+  } else {
+    const error = new Error('Usuario y/o contraseña incorrecta');
+    return res.status(400).json({
+      message: error.message
+    });
+  }
+};
