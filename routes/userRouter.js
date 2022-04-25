@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { userAuthenticate, userCreate } from "../controllers/userController.js";
+import { userAuthenticate, userConfirm, userCreate } from "../controllers/userController.js";
 const userRouter = Router();
 
 userRouter.post('/', userCreate);
 userRouter.post('/login', userAuthenticate);
+userRouter.get('/confirm/:token', userConfirm);
 
 export default userRouter;
