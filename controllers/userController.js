@@ -1,4 +1,5 @@
 import generateId from "../helpers/generateId.js";
+import generateJWT from "../helpers/generateJWT.js";
 import User from "../models/User.js";
 
 export const userCreate = async (req, res) => {
@@ -42,7 +43,8 @@ export const userAuthenticate = async (req, res) => {
     return res.status(200).json({
       _id: user._id,
       nombre: user.name,
-      email: user.email
+      email: user.email,
+      token: generateJWT(user._id)
     });
   } else {
     const error = new Error('Usuario y/o contraseña incorrecta');
