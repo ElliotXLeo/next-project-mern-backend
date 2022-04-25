@@ -75,5 +75,47 @@ export const userConfirm = async (req, res) => {
       message: error.message
     });
   }
+};
 
+export const recoverPassword = async (req, res) => {
+  const { email } = req.body;
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+    try {
+      existingUser.token = generateId();
+      await existingUser.save();
+      return res.status(200).json({
+        message: 'Verificar su correo'
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  else {
+    const error = new Error('Verificar su correo');
+    return res.status(400).json({
+      message: error.message
+    });
+  }
+};
+
+export const recoverPasswordToken = async (req, res) => {
+  const { token } = req.params;
+  const user = await User.findOne({ token });
+
+  if (user) {
+    try {
+      return res.status(200).json({
+        message: 'Token válido'
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  } else {
+    const error = new Error('Token inválido');
+    return res.status(400).json({
+      message: error.message
+    });
+  }
 };
