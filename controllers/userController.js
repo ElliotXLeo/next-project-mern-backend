@@ -119,3 +119,26 @@ export const recoverPasswordToken = async (req, res) => {
     });
   }
 };
+
+export const newPasswordToken = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  const user = await User.findOne({ token });
+  if (user) {
+    try {
+      user.password = password;
+      user.token = '';
+      await user.save();
+      return res.status(200).json({
+        message: 'Nueva contraseña guardada'
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  } else {
+    const error = new Error('Token inválido');
+    return res.status(400).json({
+      message: error.message
+    });
+  }
+};
