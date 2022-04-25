@@ -29,12 +29,12 @@ export const userAuthenticate = async (req, res) => {
   const user = await User.findOne({ email });
   console.log(user);
 
-  if (!user) {
-    const error = new Error('Usuario y/o contraseña errónea');
+  if (user === null) {
+    const error = new Error('Usuario y/o contraseña incorrecta');
     return res.status(400).json({
       message: error.message
     });
-  } else if (!user.confirmed) {
+  } else if (user.confirmed === false) {
     const error = new Error('Cuenta no confirmada');
     return res.status(403).json({
       message: error.message
@@ -48,7 +48,7 @@ export const userAuthenticate = async (req, res) => {
     });
   } else {
     const error = new Error('Usuario y/o contraseña incorrecta');
-    return res.status(400).json({
+    return res.status(401).json({
       message: error.message
     });
   }
