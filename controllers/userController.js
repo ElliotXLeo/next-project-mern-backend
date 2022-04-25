@@ -142,3 +142,8 @@ export const newPasswordToken = async (req, res) => {
     });
   }
 };
+
+export const userProfile = async (req, res) => {
+  const { user } = req;
+  return res.status(200).json(user);
+};
