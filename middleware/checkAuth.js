@@ -7,16 +7,13 @@ const checkAuth = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1];
       const decryptedToken = jsonwebtoken.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decryptedToken.id).select('-password -confirmed -token -createdAt -updatedAt -__v');
-      return next();
+      req.user = await User.findById(decryptedToken.id).select('name email');
     } catch (error) {
       return res.status(404).json({
         message: error.message
       });
     }
-  }
-  
-  if (!token) {
+  } else if (token === undefined) {
     const error = new Error('Token inválido');
     return res.status(400).json({
       message: error.message
