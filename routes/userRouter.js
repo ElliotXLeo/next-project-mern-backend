@@ -7,7 +7,9 @@ userRouter.post('/', userRegister);
 userRouter.post('/login', userAuthenticate);
 userRouter.get('/confirm/:token', userConfirm);
 userRouter.post('/recover-password', userRecoverPassword);
-userRouter.route('/recover-password/:token').get(userRecoverPasswordToken).post(userNewPasswordToken);
+userRouter.route('/recover-password/:token')
+  .get(userRecoverPasswordToken)
+  .post(userNewPasswordToken);
 
 userRouter.get('/perfil', checkAuth, userProfile);
 
