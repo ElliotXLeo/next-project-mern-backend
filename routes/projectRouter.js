@@ -16,4 +16,5 @@ projectRouter.route('/:id')
 projectRouter.post('/add-developer/:id', checkAuth, addDeveloper);
 projectRouter.delete('/remove-developer/:id', checkAuth, removeDeveloper);
 projectRouter.post('/tasks/:id', checkAuth, getTasks);
+
 export default projectRouter;
