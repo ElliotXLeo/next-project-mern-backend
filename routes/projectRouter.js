@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addDeveloper, createProject, deleteproject, getTasks, readProject, readProjects, removeDeveloper, updateproject } from "../controllers/projectController.js";
+import { addDeveloper, createProject, deleteproject, getTasks, readProject, readProjects, removeDeveloper, updateProject } from "../controllers/projectController.js";
 import checkAuth from "../middleware/checkAuth.js";
 
 const projectRouter = Router();
@@ -10,7 +10,7 @@ projectRouter.route('/')
 
 projectRouter.route('/:id')
   .get(checkAuth, readProject)
-  .put(checkAuth, updateproject)
+  .put(checkAuth, updateProject)
   .delete(checkAuth, deleteproject);
 
 projectRouter.post('/add-developer/:id', checkAuth, addDeveloper);
