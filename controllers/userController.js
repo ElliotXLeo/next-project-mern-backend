@@ -2,7 +2,7 @@ import generateId from "../helpers/generateId.js";
 import generateJWT from "../helpers/generateJWT.js";
 import User from "../models/User.js";
 
-export const userCreate = async (req, res) => {
+export const userRegister = async (req, res) => {
   const { email } = req.body;
   const existingUser = await User.findOne({ email });
 
