@@ -12,7 +12,10 @@ export const createProject = async (req, res) => {
   }
 };
 
-export const readProjects = async (req, res) => { };
+export const readProjects = async (req, res) => {
+  const projects = await Project.find().where('owner').equals(req.user);
+  res.status(200).json(projects);
+};
 
 export const readProject = async (req, res) => { };
 
