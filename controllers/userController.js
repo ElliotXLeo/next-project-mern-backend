@@ -15,9 +15,9 @@ export const userRegister = async (req, res) => {
     try {
       const user = User(req.body);
       user.token = generateId();
-      const saveUser = await user.save();
-      res.json(saveUser);
-      console.log(saveUser);
+      const savedUser = await user.save();
+      res.json(savedUser);
+      console.log(savedUser);
     } catch (error) {
       console.log(error.message);
     }
