@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { addDeveloper, createProject, deleteproject, getTasks, readProject, readProjects, removeDeveloper, updateproject } from "../controllers/projectController";
-import checkAuth from "../middleware/checkAuth";
+import { addDeveloper, createProject, deleteproject, getTasks, readProject, readProjects, removeDeveloper, updateproject } from "../controllers/projectController.js";
+import checkAuth from "../middleware/checkAuth.js";
 
 const projectRouter = Router();
 
