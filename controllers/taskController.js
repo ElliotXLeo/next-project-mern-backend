@@ -75,6 +75,29 @@ export const updateTask = async (req, res) => {
   }
 };
 
-export const deleteTask = async (req, res) => { };
+export const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id).populate('project');
+    if (task === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (task.project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      await task.deleteOne();
+      return res.status(200).json({
+        message: 'Proyecto eliminado'
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const changeTaskStatus = async (req, res) => { };
