@@ -3,24 +3,24 @@ import generateJWT from "../helpers/generateJWT.js";
 import User from "../models/User.js";
 
 export const userRegister = async (req, res) => {
-  const { email } = req.body;
-  const existingUser = await User.findOne({ email });
+  try {
+    const { email } = req.body;
+    const existingUser = await User.findOne({ email });
 
-  if (existingUser) {
-    const error = new Error('Usuario ya registrado');
-    return res.status(400).json({
-      message: error.message
-    });
-  } else {
-    try {
+    if (existingUser) {
+      const error = new Error('Usuario ya registrado');
+      return res.status(400).json({
+        message: error.message
+      });
+    } else {
       const user = User(req.body);
       user.token = generateId();
       const savedUser = await user.save();
       res.json(savedUser);
       console.log(savedUser);
-    } catch (error) {
-      console.log(error.message);
     }
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
