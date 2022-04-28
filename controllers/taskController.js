@@ -26,7 +26,27 @@ export const createTask = async (req, res) => {
 
 export const readTasks = async (req, res) => { };
 
-export const readTask = async (req, res) => { };
+export const readTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id).populate('project');
+    if (task === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (task.project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      return res.status(200).json(task);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const updateTask = async (req, res) => { };
 
