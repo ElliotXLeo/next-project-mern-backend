@@ -148,6 +148,10 @@ export const userNewPasswordToken = async (req, res) => {
 };
 
 export const userProfile = async (req, res) => {
-  const { user } = await req;
-  return res.status(200).json(user);
+  try {
+    const { user } = await req;
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
