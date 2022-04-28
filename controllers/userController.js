@@ -125,25 +125,25 @@ export const userRecoverPasswordToken = async (req, res) => {
 };
 
 export const userNewPasswordToken = async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-  const user = await User.findOne({ token });
-  if (user) {
-    try {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    const user = await User.findOne({ token });
+    if (user) {
       user.password = password;
       user.token = '';
       await user.save();
       return res.status(200).json({
         message: 'Nueva contraseña guardada'
       });
-    } catch (error) {
-      console.log(error.message);
+    } else {
+      const error = new Error('Token inválido');
+      return res.status(400).json({
+        message: error.message
+      });
     }
-  } else {
-    const error = new Error('Token inválido');
-    return res.status(400).json({
-      message: error.message
-    });
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
