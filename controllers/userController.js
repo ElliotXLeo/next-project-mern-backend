@@ -82,25 +82,25 @@ export const userConfirm = async (req, res) => {
 };
 
 export const userRecoverPassword = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-  if (user) {
-    try {
+    if (user) {
       user.token = generateId();
       await user.save();
       return res.status(200).json({
         message: 'Verificar la bandeja de entrada de su correo'
       });
-    } catch (error) {
-      console.log(error.message);
     }
-  }
-  else {
-    const error = new Error('Verificar la bandeja de entrada de su correo');
-    return res.status(400).json({
-      message: error.message
-    });
+    else {
+      const error = new Error('Verificar la bandeja de entrada de su correo');
+      return res.status(400).json({
+        message: error.message
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
