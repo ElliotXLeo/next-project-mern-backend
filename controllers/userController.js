@@ -59,25 +59,25 @@ export const userAuthenticate = async (req, res) => {
 };
 
 export const userConfirm = async (req, res) => {
-  const { token } = req.params;
-  const user = await User.findOne({ token });
+  try {
+    const { token } = req.params;
+    const user = await User.findOne({ token });
 
-  if (user) {
-    try {
+    if (user) {
       user.confirmed = true;
       user.token = '';
       await user.save();
       return res.status(200).json({
         message: 'Usuario confirmado'
       });
-    } catch (error) {
-      console.log(error.message);
+    } else {
+      const error = new Error('Datos incorrectos');
+      return res.status(400).json({
+        message: error.message
+      });
     }
-  } else {
-    const error = new Error('Datos incorrectos');
-    return res.status(400).json({
-      message: error.message
-    });
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
