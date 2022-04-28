@@ -1,4 +1,5 @@
 import Project from "../models/Project.js";
+import Task from "../models/Task.js";
 
 export const createProject = async (req, res) => {
   try {
@@ -99,4 +100,25 @@ export const addDeveloper = async (req, res) => { };
 
 export const removeDeveloper = async (req, res) => { };
 
-export const getTasks = async (req, res) => { };
+export const getTasks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    if (project === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      const tasks = await Task.find().where('project').equals(id);
+      return res.status(200).json(tasks);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
