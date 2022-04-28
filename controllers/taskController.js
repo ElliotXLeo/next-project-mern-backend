@@ -48,7 +48,32 @@ export const readTask = async (req, res) => {
   }
 };
 
-export const updateTask = async (req, res) => { };
+export const updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id).populate('project');
+    if (task === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (task.project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      task.name = req.body.name || task.name;
+      task.description = req.body.description || task.description;
+      task.deadline = req.body.deadline || task.deadline;
+      task.priority = req.body.priority || task.priority;
+      const savedTask = await task.save();
+      return res.status(200).json(savedTask);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const deleteTask = async (req, res) => { };
 
