@@ -37,7 +37,11 @@ export const readProject = async (req, res) => {
         message: error.message
       });
     } else {
-      return res.status(200).json(project);
+      const tasks = await Task.find().where('project').equals(project._id);
+      return res.status(200).json({
+        project,
+        tasks
+      });
     }
   } catch (error) {
     console.log(error.message);
