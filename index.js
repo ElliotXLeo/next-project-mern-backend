@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import database from './config/database.js';
 import dotenv from 'dotenv';
@@ -11,6 +12,19 @@ app.use(express.json());
 dotenv.config();
 
 database();
+
+const whiteList = [process.env.FRONTEND_URL];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Error de Cors'));
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);
