@@ -7,7 +7,9 @@ import taskRouter from './routes/taskRouter.js';
 
 const app = express();
 app.use(express.json());
+
 dotenv.config();
+
 database();
 
 app.use('/api/users', userRouter);
