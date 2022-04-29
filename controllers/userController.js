@@ -15,9 +15,10 @@ export const userRegister = async (req, res) => {
     } else {
       const user = User(req.body);
       user.token = generateId();
-      const savedUser = await user.save();
-      res.json(savedUser);
-      console.log(savedUser);
+      await user.save();
+      return res.status(200).json({
+        message: 'Usuario registrado. Revisa tu email para confirmar tu cuenta.'
+      });
     }
   } catch (error) {
     console.log(error.message);
