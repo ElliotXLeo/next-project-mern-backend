@@ -7,7 +7,6 @@ export const createProject = async (req, res) => {
     project.owner = req.user._id;
     const savedProject = await project.save();
     res.json(savedProject);
-    console.log(savedProject);
   } catch (error) {
     console.log(error.message);
   }

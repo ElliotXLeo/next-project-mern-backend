@@ -1,3 +1,4 @@
+import { passwordRecoveryEmail, registrationEmail } from "../helpers/email.js";
 import generateId from "../helpers/generateId.js";
 import generateJWT from "../helpers/generateJWT.js";
 import User from "../models/User.js";
@@ -16,42 +17,14 @@ export const userRegister = async (req, res) => {
       const user = User(req.body);
       user.token = generateId();
       await user.save();
+      const { name, email, token } = user;
+      registrationEmail({
+        name,
+        email,
+        token
+      });
       return res.status(200).json({
         message: 'Usuario registrado. Revisa tu email para confirmar tu cuenta.'
-      });
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const userAuthenticate = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    console.log(user);
-
-    if (user === null) {
-      const error = new Error('Usuario y/o contraseña incorrecta');
-      return res.status(400).json({
-        message: error.message
-      });
-    } else if (user.confirmed === false) {
-      const error = new Error('Cuenta no confirmada');
-      return res.status(403).json({
-        message: error.message
-      });
-    } else if (await user.verifyPassword(password)) {
-      return res.status(200).json({
-        _id: user._id,
-        nombre: user.name,
-        email: user.email,
-        token: generateJWT(user._id)
-      });
-    } else {
-      const error = new Error('Usuario y/o contraseña incorrecta');
-      return res.status(401).json({
-        message: error.message
       });
     }
   } catch (error) {
@@ -90,6 +63,12 @@ export const userRecoverPassword = async (req, res) => {
     if (user) {
       user.token = generateId();
       await user.save();
+      const { name, email, token } = user;
+      passwordRecoveryEmail({
+        name,
+        email,
+        token
+      });
       return res.status(200).json({
         message: 'Verificar la bandeja de entrada de su correo'
       });
@@ -140,6 +119,39 @@ export const userNewPasswordToken = async (req, res) => {
     } else {
       const error = new Error('Token inválido');
       return res.status(400).json({
+        message: error.message
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const userAuthenticate = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (user === null) {
+      const error = new Error('Usuario y/o contraseña incorrecta');
+      return res.status(400).json({
+        message: error.message
+      });
+    } else if (user.confirmed === false) {
+      const error = new Error('Cuenta no confirmada');
+      return res.status(403).json({
+        message: error.message
+      });
+    } else if (await user.verifyPassword(password)) {
+      return res.status(200).json({
+        _id: user._id,
+        nombre: user.name,
+        email: user.email,
+        token: generateJWT(user._id)
+      });
+    } else {
+      const error = new Error('Usuario y/o contraseña incorrecta');
+      return res.status(401).json({
         message: error.message
       });
     }
