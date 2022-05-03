@@ -145,7 +145,7 @@ export const userAuthenticate = async (req, res) => {
     } else if (await user.verifyPassword(password)) {
       return res.status(200).json({
         _id: user._id,
-        nombre: user.name,
+        name: user.name,
         email: user.email,
         token: generateJWT(user._id)
       });
