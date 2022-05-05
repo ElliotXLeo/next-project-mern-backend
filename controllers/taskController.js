@@ -17,6 +17,8 @@ export const createTask = async (req, res) => {
       });
     } else {
       const taskCreated = await Task.create(req.body);
+      existingProject.tasks.push(taskCreated._id);
+      await existingProject.save();
       res.status(200).json(taskCreated);
     }
   } catch (error) {
