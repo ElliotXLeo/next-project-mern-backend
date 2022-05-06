@@ -14,7 +14,7 @@ export const createProject = async (req, res) => {
 
 export const readProjects = async (req, res) => {
   try {
-    const projects = await Project.find().where('owner').equals(req.user);
+    const projects = await Project.find().where('owner').equals(req.user).select('-tasks -developers');
     res.status(200).json(projects);
   } catch (error) {
     console.log(error.message);
@@ -24,7 +24,7 @@ export const readProjects = async (req, res) => {
 export const readProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate('tasks');
     if (project === null) {
       const error = new Error('Datos incorrectos');
       return res.status(404).json({
