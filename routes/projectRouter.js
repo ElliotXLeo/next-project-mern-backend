@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addDeveloper, createProject, deleteProject, getTasks, readProject, readProjects, removeDeveloper, updateProject } from "../controllers/projectController.js";
+import { addDeveloper, createProject, deleteProject, getTask, readProject, readProjects, removeDeveloper, searchDeveloper, updateProject } from "../controllers/projectController.js";
 import checkAuth from "../middleware/checkAuth.js";
 
 const projectRouter = Router();
@@ -13,8 +13,10 @@ projectRouter.route('/:id')
   .put(checkAuth, updateProject)
   .delete(checkAuth, deleteProject);
 
-projectRouter.post('/add-developer/:id', checkAuth, addDeveloper);
-projectRouter.delete('/remove-developer/:id', checkAuth, removeDeveloper);
-projectRouter.get('/tasks/:id', checkAuth, getTasks);
+projectRouter.get('/developer/:email', checkAuth, searchDeveloper);
+projectRouter.post('/developer/:id', checkAuth, addDeveloper);
+projectRouter.delete('/developer/:id', checkAuth, removeDeveloper);
+
+projectRouter.get('/tasks/:id', checkAuth, getTask);
 
 export default projectRouter;

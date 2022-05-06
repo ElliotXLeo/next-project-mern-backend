@@ -1,5 +1,6 @@
 import Project from "../models/Project.js";
 import Task from "../models/Task.js";
+import User from "../models/User.js";
 
 export const createProject = async (req, res) => {
   try {
@@ -95,11 +96,28 @@ export const deleteProject = async (req, res) => {
   }
 };
 
+export const searchDeveloper = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await User.findOne({ email }).select('_id name email');
+    if (user === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else {
+      return res.status(200).json(user);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const addDeveloper = async (req, res) => { };
 
 export const removeDeveloper = async (req, res) => { };
 
-export const getTasks = async (req, res) => {
+export const getTask = async (req, res) => {
   try {
     const { id } = req.params;
     const project = await Project.findById(id);
