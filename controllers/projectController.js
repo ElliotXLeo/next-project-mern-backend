@@ -113,7 +113,47 @@ export const searchDeveloper = async (req, res) => {
   }
 };
 
-export const addDeveloper = async (req, res) => { };
+export const addDeveloper = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (project === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      const { email } = req.body;
+      const user = await User.findOne({ email }).select('_id name email');
+      if (user === null) {
+        const error = new Error('Datos incorrectos');
+        return res.status(404).json({
+          message: error.message
+        });
+      } else if (project.owner.toString() === user._id.toString()) {
+        const error = new Error('No puedes agregar al creador del proyecto');
+        return res.status(404).json({
+          message: error.message
+        });
+      } else if (project.developers.includes(user._id)) {
+        const error = new Error('Ya existe el desarrollador');
+        return res.status(404).json({
+          message: error.message
+        });
+      } else {
+        project.developers.push(user._id);
+        await project.save();
+        return res.status(200).json(user);
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const removeDeveloper = async (req, res) => { };
 
