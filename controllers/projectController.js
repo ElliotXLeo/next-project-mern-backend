@@ -25,7 +25,7 @@ export const readProjects = async (req, res) => {
 export const readProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const project = await Project.findById(id).populate('tasks');
+    const project = await Project.findById(id).populate('tasks').populate('developers', '_id name email');
     if (project === null) {
       const error = new Error('Datos incorrectos');
       return res.status(404).json({

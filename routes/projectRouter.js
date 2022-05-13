@@ -13,9 +13,9 @@ projectRouter.route('/:id')
   .put(checkAuth, updateProject)
   .delete(checkAuth, deleteProject);
 
-projectRouter.get('/developer/:email', checkAuth, searchDeveloper);
-projectRouter.post('/developer/:id', checkAuth, addDeveloper);
-projectRouter.delete('/developer/:id', checkAuth, removeDeveloper);
+projectRouter.get('/developers/:email', checkAuth, searchDeveloper);
+projectRouter.post('/developers/:id', checkAuth, addDeveloper);
+projectRouter.delete('/developers/:id', checkAuth, removeDeveloper);
 
 projectRouter.get('/tasks/:id', checkAuth, getTask);
 
