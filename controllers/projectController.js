@@ -15,7 +15,14 @@ export const createProject = async (req, res) => {
 
 export const readProjects = async (req, res) => {
   try {
-    const projects = await Project.find().where('owner').equals(req.user).select('-tasks -developers');
+    const projects = await Project.find(
+      {
+        $or: [
+          { developers: { $in: req.user } },
+          { owner: { $in: req.user } }
+        ]
+      })
+      .select('-tasks -developers');
     res.status(200).json(projects);
   } catch (error) {
     console.log(error.message);
