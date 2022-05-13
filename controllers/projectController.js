@@ -155,7 +155,30 @@ export const addDeveloper = async (req, res) => {
   }
 };
 
-export const removeDeveloper = async (req, res) => { };
+export const removeDeveloper = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (project === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (project.owner.toString() !== req.user._id.toString()) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      project.developers.pull(req.body._id);
+      await project.save();
+      return res.status(200).json({
+        message: 'Desarrollador eliminado'
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getTask = async (req, res) => {
   try {
