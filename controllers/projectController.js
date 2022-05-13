@@ -38,7 +38,10 @@ export const readProject = async (req, res) => {
       return res.status(404).json({
         message: error.message
       });
-    } else if (project.owner.toString() !== req.user._id.toString()) {
+    } else if (
+      project.owner.toString() !== req.user._id.toString() &&
+      project.developers.some(element => element._id.toString() === req.user._id.toString()) === false
+    ) {
       const error = new Error('Acción no válida');
       return res.status(401).json({
         message: error.message
