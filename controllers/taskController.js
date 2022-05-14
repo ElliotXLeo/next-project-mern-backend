@@ -77,6 +77,33 @@ export const updateTask = async (req, res) => {
   }
 };
 
+export const changeTaskStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id).populate('project');
+    if (task === null) {
+      const error = new Error('Datos incorrectos');
+      return res.status(404).json({
+        message: error.message
+      });
+    } else if (
+      task.project.owner.toString() !== req.user._id.toString() &&
+      task.project.developers.some(element => element._id.toString() === req.user._id.toString()) === false
+    ) {
+      const error = new Error('Acción no válida');
+      return res.status(401).json({
+        message: error.message
+      });
+    } else {
+      task.state = !task.state;
+      await task.save();
+      return res.status(200).json(task);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,5 +128,3 @@ export const deleteTask = async (req, res) => {
     console.log(error.message);
   }
 };
-
-export const changeTaskStatus = async (req, res) => { };
