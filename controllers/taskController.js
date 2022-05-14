@@ -119,7 +119,9 @@ export const deleteTask = async (req, res) => {
         message: error.message
       });
     } else {
-      await task.deleteOne();
+      const project = await Project.findById(task.project);
+      project.tasks.pull(task._id);
+      await Promise.allSettled([await project.save(), await task.deleteOne()]);
       return res.status(200).json({
         message: 'Proyecto eliminado'
       });
