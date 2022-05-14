@@ -80,7 +80,7 @@ export const updateTask = async (req, res) => {
 export const changeTaskStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const task = await Task.findById(id).populate('project');
+    const task = await Task.findById(id).populate('project').populate('developer');
     if (task === null) {
       const error = new Error('Datos incorrectos');
       return res.status(404).json({
@@ -96,8 +96,10 @@ export const changeTaskStatus = async (req, res) => {
       });
     } else {
       task.state = !task.state;
+      task.developer = req.user._id;
       await task.save();
-      return res.status(200).json(task);
+      const savedTask = await Task.findById(id).populate('project').populate('developer');
+      return res.status(200).json(savedTask);
     }
   } catch (error) {
     console.log(error.message);
