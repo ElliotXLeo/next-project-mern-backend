@@ -47,6 +47,9 @@ const serverIo = new Server(serverNode, {
 serverIo.on('connection', (socket) => {
   socket.on('project', (id) => {
     socket.join(id);
-    console.log(id);
+  });
+
+  socket.on('createTask', task => {
+    socket.to(task.project).emit('taskCreated', task);
   });
 });
