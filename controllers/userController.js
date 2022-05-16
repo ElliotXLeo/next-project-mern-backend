@@ -7,7 +7,6 @@ export const userRegister = async (req, res) => {
   try {
     const { email } = req.body;
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
       const error = new Error('Usuario ya registrado');
       return res.status(400).json({
@@ -36,7 +35,6 @@ export const userConfirm = async (req, res) => {
   try {
     const { token } = req.params;
     const user = await User.findOne({ token });
-
     if (user) {
       user.confirmed = true;
       user.token = '';
@@ -59,7 +57,6 @@ export const userRecoverPassword = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-
     if (user) {
       user.token = generateId();
       await user.save();
@@ -88,7 +85,6 @@ export const userRecoverPasswordToken = async (req, res) => {
   try {
     const { token } = req.params;
     const user = await User.findOne({ token });
-
     if (user) {
       return res.status(200).json({
         message: 'Token válido'
@@ -131,7 +127,6 @@ export const userAuthenticate = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-
     if (user === null) {
       const error = new Error('Usuario y/o contraseña incorrecta');
       return res.status(400).json({
