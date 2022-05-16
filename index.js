@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import userRouter from './routes/userRouter.js';
 import projectRouter from './routes/projectRouter.js';
 import taskRouter from './routes/taskRouter.js';
+import { Server } from 'socket.io';
 
 const app = express();
 app.use(express.json());
@@ -36,7 +37,6 @@ const serverNode = app.listen(PORT, () => {
   console.log(`Servidor corriendo desde el puerto ${PORT}`);
 });
 
-import { Server } from 'socket.io';
 const serverIo = new Server(serverNode, {
   pingTimeout: 60000,
   cors: {
@@ -55,5 +55,9 @@ serverIo.on('connection', (socket) => {
 
   socket.on('updateTask', (task) => {
     socket.to(task.project._id).emit('updatedTask', task);
+  });
+
+  socket.on('deleteTask', (task) => {
+    socket.to(task.project._id ?? task.project).emit('deletedTask', task);
   });
 });
