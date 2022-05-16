@@ -26,8 +26,6 @@ export const createTask = async (req, res) => {
   }
 };
 
-export const readTasks = async (req, res) => { };
-
 export const readTask = async (req, res) => {
   try {
     const { id } = req.params;
