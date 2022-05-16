@@ -49,7 +49,11 @@ serverIo.on('connection', (socket) => {
     socket.join(id);
   });
 
-  socket.on('createTask', task => {
+  socket.on('createTask', (task) => {
     socket.to(task.project).emit('taskCreated', task);
+  });
+
+  socket.on('updateTask', (task) => {
+    socket.to(task.project._id).emit('updatedTask', task);
   });
 });
