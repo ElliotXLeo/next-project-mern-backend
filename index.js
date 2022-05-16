@@ -32,6 +32,21 @@ app.use('/api/tasks', taskRouter);
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
+const serverNode = app.listen(PORT, () => {
   console.log(`Servidor corriendo desde el puerto ${PORT}`);
+});
+
+import { Server } from 'socket.io';
+const serverIo = new Server(serverNode, {
+  pingTimeout: 60000,
+  cors: {
+    origin: process.env.FRONTEND_URL
+  }
+});
+
+serverIo.on('connection', (socket) => {
+  socket.on('project', (id) => {
+    socket.join(id);
+    console.log(id);
+  });
 });
